@@ -160,5 +160,16 @@ stays neutral so the generated work is the only color on the surface.
 6. **The catalog is the source of truth** — the studio renders what the model
    declares, never a parallel hardcoded list.
 
+### Themes
+
+The lime studio above is the default. Nothing stored means nothing changes.
+**Falcon** is a second theme, chosen from **Theme** in the top bar and kept in
+this browser (`ohf-theme`). It uses the Falcon identity — Hangar, Bone, Chalk,
+Peregrine Slate, Steel, Cere Yellow; Big Shoulders, IBM Plex Serif, and Work
+Sans — in the Editorial Minimal direction. Where that system and the principles
+above disagree, the principles win: Cere marks state, not decoration; counts
+stay in the UI face with tabular numerals, not a monospace; and no Falcon logo
+is drawn, because the identity says none exists yet.
+
 Built for people who work in long sessions, iterating on prompts, inputs and
 settings.

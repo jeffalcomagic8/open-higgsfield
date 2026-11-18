@@ -2,7 +2,8 @@
    Identity: near-black studio, one lime accent reserved for selection,
    primary action and liveness. Structure = hairline borders; elevation =
    offset shadows. One face throughout: Inter, with tabular numerals where the
-   type carries measurement. */
+   type carries measurement. This is the default theme. Falcon is opt-in and
+   lives in falcon.css. */
 
 .ohf {
   --bg: #0a0a0b;
@@ -26,6 +27,19 @@
   --accent-08: rgba(209, 254, 23, 0.08);
   --accent-14: rgba(209, 254, 23, 0.14);
   --accent-32: rgba(209, 254, 23, 0.32);
+  /* Bright stop of the primary fill. Falcon flattens it to the accent. */
+  --accent-bright: #d9fe3e;
+  /* Dark outline a pale accent needs on a pale ground. Transparent here. */
+  --accent-edge: transparent;
+  /* Foreground of a state mark. Falcon light retargets it: Cere text fails on Bone. */
+  --state-fg: var(--accent);
+  --state-fg-hover: var(--accent-strong);
+  /* White washes on dark chrome. Falcon light points this at Hangar. */
+  --wash: 255, 255, 255;
+  --caret: var(--accent);
+  --thumb: #f2f6f5;
+  --selection-bg: rgba(209, 254, 23, 0.28);
+  --selection-fg: #fbfef1;
   /* Smoked plate for chrome that sits on a returned picture. 0.7 holds the
      4.5:1 ink floor even against a blown-out white frame; lighter did not. */
   --plate: rgba(6, 9, 8, 0.7);
@@ -48,8 +62,8 @@
   color: var(--tx);
   background: var(--bg);
   color-scheme: dark;
-  caret-color: var(--accent);
-  accent-color: var(--accent);
+  caret-color: var(--caret);
+  accent-color: var(--state-fg);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -83,8 +97,8 @@
 }
 
 .ohf ::selection {
-  background: rgba(209, 254, 23, 0.28);
-  color: #fbfef1;
+  background: var(--selection-bg);
+  color: var(--selection-fg);
 }
 
 /* :where() keeps the reset at zero extra specificity so component classes win. */
@@ -448,7 +462,7 @@
   color: var(--tx2);
 }
 .ohf-tab:not([aria-selected="true"]):hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(var(--wash), 0.035);
 }
 .ohf-tab:active {
   transform: scale(0.97);
@@ -457,7 +471,7 @@
   color: var(--tx);
 }
 .ohf-tab[aria-selected="true"] svg {
-  color: var(--accent);
+  color: var(--state-fg);
 }
 
 /* ---------- platform lamp ---------- */
@@ -481,9 +495,10 @@
     color 0.22s ease,
     background 0.15s ease;
 }
-.ohf-key:hover {
+.ohf-key:hover,
+.ohf-key[aria-expanded="true"] {
   color: var(--tx);
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(var(--wash), 0.035);
 }
 .ohf-key:active {
   transform: scale(0.97);
@@ -493,12 +508,13 @@
   color: var(--tx3);
   transition: color 0.22s ease;
 }
-.ohf-key:hover svg {
+.ohf-key:hover svg,
+.ohf-key[aria-expanded="true"] svg {
   color: var(--tx2);
 }
 .ohf-key[data-ready="true"] svg,
 .ohf-key[data-busy="true"] svg {
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-key[data-busy="true"] {
   color: var(--tx);
@@ -514,6 +530,48 @@
 .ohf-key[data-busy="true"] .ohf-lamp {
   background: var(--accent);
   animation: ohf-pulse 2.4s ease-in-out infinite;
+}
+
+/* Theme sits with the other top instruments. The menu drops from the bar and
+   uses the same plate, so Studio and Falcon share one control. */
+.ohf-theme {
+  position: relative;
+}
+.ohf-theme-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 5;
+  width: min(240px, calc(100vw - 32px));
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--s2);
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  box-shadow: var(--shadow-3), var(--glint);
+  animation: ohf-pop 0.22s var(--ease);
+  transform-origin: top right;
+}
+.ohf-theme-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ohf-theme-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ohf-theme-menu .ohf-menu-ic {
+  width: 16px;
+  justify-content: center;
+}
+.ohf-theme-note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--tx3);
 }
 
 /* ---------- main ---------- */
@@ -677,7 +735,7 @@
   width: 15px;
   height: 15px;
   border-color: rgba(255, 255, 255, 0.24);
-  border-top-color: var(--accent);
+  border-top-color: var(--state-fg);
 }
 .ohf-tile-act:hover {
   background: rgba(9, 13, 12, 0.86);
@@ -688,13 +746,13 @@
   transform: scale(0.92);
 }
 .ohf-tile-act[data-on="true"] {
-  color: var(--accent);
+  color: var(--state-fg);
   border-color: var(--accent-32);
 }
 .ohf-tile-act[data-on="true"]:hover {
   background: rgba(9, 13, 12, 0.86);
   border-color: var(--accent);
-  color: var(--accent-strong);
+  color: var(--state-fg-hover);
 }
 .ohf-tile-act--danger:hover {
   background: rgba(40, 14, 11, 0.88);
@@ -1118,7 +1176,7 @@
   padding: 10px 12px 10px 10px;
   border-radius: 13px;
   text-align: left;
-  background: rgba(255, 255, 255, 0.018);
+  background: rgba(var(--wash), 0.018);
   border: 1px solid var(--line);
   transition:
     background 0.16s ease,
@@ -1621,12 +1679,12 @@
 .ohf-selact[data-on="true"] {
   background: var(--accent-08);
   border-color: var(--accent-32);
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-selact[data-on="true"]:hover {
   background: var(--accent-14);
   border-color: var(--accent);
-  color: var(--accent-strong);
+  color: var(--state-fg-hover);
 }
 .ohf-selact--danger:hover:not(:disabled) {
   background: var(--danger-bg);
@@ -1729,7 +1787,7 @@
   height: 14px;
   border-radius: 50%;
   border: 1.5px solid var(--line-2);
-  border-top-color: var(--accent);
+  border-top-color: var(--state-fg);
   animation: ohf-rotate 0.7s linear infinite;
 }
 
@@ -1771,7 +1829,7 @@
 .ohf-ctl--flag[aria-pressed="true"] {
   background: var(--accent-14);
   border-color: var(--accent-32);
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-ctl--model {
   background: var(--s3);
@@ -1923,7 +1981,7 @@
   justify-content: center;
   gap: 8px;
   position: relative;
-  background: linear-gradient(180deg, #d9fe3e, var(--accent));
+  background: linear-gradient(180deg, var(--accent-bright), var(--accent));
   color: var(--accent-ink);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.4),
@@ -1950,7 +2008,7 @@
    grey of "you cannot press this". */
 .ohf-generate[data-busy="true"]:disabled {
   background: var(--accent-14);
-  color: var(--accent);
+  color: var(--state-fg);
   box-shadow: inset 0 0 0 1px var(--accent-32);
 }
 .ohf-generate-glyph {
@@ -2181,7 +2239,19 @@
   transition: color 0.12s ease;
 }
 .ohf-menu-row:hover:not(:disabled) .ohf-menu-ic {
-  color: var(--accent);
+  color: var(--state-fg);
+}
+.ohf-menu-row:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.ohf-menu-row[aria-checked="true"],
+.ohf-menu-row[aria-checked="true"]:hover {
+  background: var(--accent-08);
+  color: var(--state-fg);
+}
+.ohf-menu-row[aria-checked="true"] .ohf-menu-ic,
+.ohf-menu-row[aria-checked="true"]:hover .ohf-menu-ic {
+  color: var(--state-fg);
 }
 .ohf-menu-row:disabled .ohf-menu-ic {
   color: var(--tx-off);
@@ -2272,7 +2342,7 @@
 }
 .ohf-opt[aria-pressed="true"] {
   background: var(--accent-08);
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-opt[aria-pressed="true"]:hover {
   background: var(--accent-14);
@@ -2339,7 +2409,7 @@
 .ohf-chip[aria-pressed="true"] {
   background: var(--accent-14);
   border-color: var(--accent-32);
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-slider {
   appearance: none;
@@ -2361,7 +2431,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #f2f6f5;
+  background: var(--thumb);
   margin-top: -5px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   transition: transform 0.15s var(--ease);
@@ -2384,7 +2454,7 @@
   height: 14px;
   border: none;
   border-radius: 50%;
-  background: #f2f6f5;
+  background: var(--thumb);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -2562,7 +2632,7 @@
 .ohf-model-row-check {
   width: 16px;
   flex-shrink: 0;
-  color: var(--accent);
+  color: var(--state-fg);
   display: flex;
   justify-content: center;
 }
@@ -2659,7 +2729,7 @@
   color: var(--tx);
 }
 .ohf-assets-tab:not([aria-selected="true"]):hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(var(--wash), 0.035);
 }
 .ohf-assets-tab[aria-selected="true"] {
   color: var(--tx);
@@ -3183,7 +3253,7 @@
   color: var(--tx);
 }
 .ohf-viewer-copy[data-done] {
-  color: var(--accent);
+  color: var(--state-fg);
 }
 /* The words the run was made from: the one thing in the panel worth taking
    away by hand, so it is set as text on a plate, not as a caption. */
@@ -3283,12 +3353,12 @@
 .ohf-viewer-keep[data-on="true"] {
   background: var(--accent-08);
   border-color: var(--accent-32);
-  color: var(--accent);
+  color: var(--state-fg);
 }
 .ohf-viewer-keep[data-on="true"]:hover {
   background: var(--accent-14);
   border-color: var(--accent);
-  color: var(--accent-strong);
+  color: var(--state-fg-hover);
 }
 .ohf-btn-quiet {
   height: 32px;
@@ -3446,7 +3516,7 @@ a.ohf-btn-solid {
   border-radius: 10px;
   font-size: 13px;
   font-weight: 620;
-  background: linear-gradient(180deg, #d9fe3e, var(--accent));
+  background: linear-gradient(180deg, var(--accent-bright), var(--accent));
   color: var(--accent-ink);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.4),

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { VIEWS, VIEW_LABELS, type GalleryView } from "./data";
 import { AssetsIcon, HeartIcon, ImageIcon, KeyIcon, VideoIcon } from "./icons";
+import { ThemeControl } from "./theme-control";
 
 const VIEW_ICONS: Record<GalleryView, () => React.ReactNode> = {
   image: () => <ImageIcon />,
@@ -138,6 +139,8 @@ export function Topbar({
           <span className="ohf-lamp" />
         </button>
       </div>
+
+      <ThemeControl />
     </div>
   );
 }

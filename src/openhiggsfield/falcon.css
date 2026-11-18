@@ -1,0 +1,332 @@
+/* Falcon theme. Opt-in: html[data-theme="falcon"] set by theme.ts.
+   The lime studio on .ohf stays the default and is not restated here.
+
+   Direction — Editorial Minimal. The studio is a tool read closely for long
+   sessions. This direction keeps the surface quiet so the work stays louder
+   than the chrome. Industrial Brutalist was the other plausible fit; it lost
+   because the repo's first principle is that the tool disappears into the task.
+
+   The installed Editorial Minimal ruleset (repos/taste-skill) is not in the
+   design hub checkout, and the upstream file returned 404, so this file follows
+   the selector's description of that direction plus the identity layer.
+
+   Calls where Falcon and this repo disagree, and what won:
+   - No monospace. Falcon specifies IBM Plex Mono for data. This repo forbids
+     monospace and already sets measurement in tabular numerals. Data stays in
+     the UI face (Work Sans) with tabular-nums.
+   - One face, in the studio theme only. Falcon is three roles: Big Shoulders
+     for the empty-state display, IBM Plex Serif for reading and the prompt,
+     Work Sans for chrome. The lime theme keeps Inter.
+   - Accent is state. Cere Yellow fills the primary action, a checked mark, and
+     the busy lamp. It is not a decoration. On Bone, Cere text is 1.63:1, so
+     those states use Hangar ink on a Cere chip, and small type uses Hangar.
+   - Hairlines. Steel at 40% is about 2.3:1 on Hangar and 1.3:1 on Bone, under
+     the 3:1 UI-edge floor. Borders use Peregrine, lifted just enough to clear
+     3:1 on the darkest card.
+   - Spacing. New theme UI uses 4 / 8 / 16. The studio's existing paddings are
+     load-bearing for the dock and the grid, and were not retuned onto the ramp.
+   - Plates over a returned picture stay Hangar, in both appearances. Chalk on
+     a photograph fails. Chalk is for cards on Bone, not for chrome on the work.
+   - No logo. The identity says none exists. The menu says so. The word Falcon
+     is set in the UI face, not as a wordmark.
+
+   Light tokens live on the falcon attribute, outside any media query. Dark
+   tokens repeat under the guarded prefers-color-scheme query and again under
+   data-scheme="dark", so a color is never defined only inside the query. */
+
+html[data-theme="falcon"],
+html[data-theme="falcon"] body {
+  background: #edeae3;
+  color-scheme: light;
+}
+
+/* ---------- shared structure (both appearances) ---------- */
+
+html[data-theme="falcon"] .ohf {
+  --font-ui: var(--font-falcon-ui), "Work Sans", Arial, sans-serif;
+  --font-display: var(--font-falcon-display), "Big Shoulders", Impact, sans-serif;
+  --font-body: var(--font-falcon-serif), "IBM Plex Serif", Georgia, serif;
+  --selection-bg: #e3b23c;
+  --selection-fg: #14161a;
+  font-family: var(--font-ui);
+}
+
+html[data-theme="falcon"] .ohf-composer {
+  --ctl-r: 6px;
+}
+
+html[data-theme="falcon"] :is(
+  .ohf-bar,
+  .ohf-thumb,
+  .ohf-tab,
+  .ohf-key,
+  .ohf-tile,
+  .ohf-skeleton,
+  .ohf-tile-act,
+  .ohf-pick-box,
+  .ohf-fail-ic,
+  .ohf-tile-badge,
+  .ohf-tile-fact,
+  .ohf-starter,
+  .ohf-starter-thumb,
+  .ohf-undo,
+  .ohf-undo-act,
+  .ohf-alert,
+  .ohf-strip-tile,
+  .ohf-composer,
+  .ohf-selbar,
+  .ohf-selchip,
+  .ohf-selact,
+  .ohf-batch-step,
+  .ohf-model-swatch,
+  .ohf-kbd,
+  .ohf-popover,
+  .ohf-menu-row,
+  .ohf-opt,
+  .ohf-chip,
+  .ohf-icon-btn,
+  .ohf-model-row,
+  .ohf-model-row-swatch,
+  .ohf-picker-empty-ic,
+  .ohf-assets-tab,
+  .ohf-asset,
+  .ohf-asset-kind,
+  .ohf-btn-accent,
+  .ohf-dialog-panel,
+  .ohf-keys-save,
+  .ohf-viewer-figure,
+  .ohf-viewer-side,
+  .ohf-viewer-copy,
+  .ohf-viewer-prompt,
+  .ohf-btn-quiet,
+  .ohf-btn-solid,
+  .ohf-pill,
+  .ohf-cta,
+  .ohf-theme-menu
+) {
+  border-radius: 6px;
+}
+
+html[data-theme="falcon"] .ohf-tip[data-tip]::after {
+  border-radius: 6px;
+}
+
+html[data-theme="falcon"] .ohf-input {
+  border-radius: 3px;
+}
+
+html[data-theme="falcon"] :is(.ohf-ctl-ratio-box, .ohf-opt-box) {
+  border-radius: 0;
+}
+
+html[data-theme="falcon"] :is(
+  .ohf-prompt,
+  .ohf-empty-hint,
+  .ohf-viewer-prompt,
+  .ohf-keys-copy,
+  .ohf-api-sub,
+  .ohf-alert-text
+) {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+html[data-theme="falcon"] .ohf-empty-copy {
+  align-items: stretch;
+}
+
+html[data-theme="falcon"] .ohf-empty-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  text-align: center;
+}
+
+html[data-theme="falcon"] .ohf-empty-hint {
+  width: min(100%, 66ch);
+  align-self: center;
+  text-align: left;
+}
+
+html[data-theme="falcon"] :is(.ohf-pop-head, .ohf-viewer-label, .ohf-skeleton-label) {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+html[data-theme="falcon"] :is(
+  .ohf-generate:not(:disabled),
+  .ohf-cta:not(:disabled),
+  .ohf-keys-save:not(:disabled),
+  .ohf-btn-accent:not(:disabled):not([data-quiet="true"])
+) {
+  background: var(--accent);
+  color: var(--accent-ink);
+  filter: none;
+  box-shadow: 0 0 0 1.5px var(--accent-edge), var(--shadow-1);
+}
+
+html[data-theme="falcon"] :is(
+  .ohf-generate:hover:not(:disabled),
+  .ohf-cta:hover:not(:disabled),
+  .ohf-keys-save:hover:not(:disabled),
+  .ohf-btn-accent:hover:not(:disabled):not([data-quiet="true"])
+) {
+  background: var(--accent-strong);
+  filter: none;
+}
+
+html[data-theme="falcon"] .ohf-key[data-busy="true"] .ohf-lamp,
+html[data-theme="falcon"] .ohf-pill[data-on="true"] .ohf-pill-dot {
+  box-shadow: 0 0 0 1px var(--accent-edge);
+}
+
+html[data-theme="falcon"] .ohf-tile[data-picked="true"] {
+  box-shadow: 0 0 0 1px var(--accent-edge), var(--shadow-2);
+}
+
+/* ---------- light: Bone ground, Chalk cards ---------- */
+
+html[data-theme="falcon"] .ohf {
+  color-scheme: light;
+  --bg: #edeae3;
+  --rail: #edeae3;
+  --s1: #e6e2da;
+  --s2: #f7f5f1;
+  --s3: #efece6;
+  --s4: #e4e0d8;
+  /* Peregrine. Steel at 40% is 1.28:1 on Bone. Solid Peregrine clears 3:1. */
+  --line: rgba(91, 108, 127, 0.72);
+  --line-2: #5b6c7f;
+  --tx: #14161a;
+  /* Peregrine pulled toward Hangar until body text clears 4.5:1 on Bone and Chalk. */
+  --tx2: #45515f;
+  --tx3: #4e5c6c;
+  --tx4: #526172;
+  --tx-off: #5b6c7f;
+  --accent: #e3b23c;
+  --accent-strong: #e8c369;
+  --accent-ink: #14161a;
+  --accent-bright: #e3b23c;
+  --accent-08: rgba(227, 178, 60, 0.18);
+  --accent-14: rgba(227, 178, 60, 0.28);
+  /* Focus ring. Cere at 32% is under 3:1 on Bone, so the ring is Hangar. */
+  --accent-32: rgba(20, 22, 26, 0.55);
+  --accent-edge: #14161a;
+  --state-fg: #14161a;
+  --state-fg-hover: #14161a;
+  --wash: 20, 22, 26;
+  --plate: rgba(20, 22, 26, 0.78);
+  --plate-ink: #edeae3;
+  --shadow-1: 0 1px 2px rgba(20, 22, 26, 0.06);
+  --shadow-2: 0 1px 2px rgba(20, 22, 26, 0.06), 0 10px 30px rgba(20, 22, 26, 0.08);
+  --shadow-3: 0 8px 24px rgba(20, 22, 26, 0.08), 0 24px 48px rgba(20, 22, 26, 0.12);
+  --glint: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --danger: #a8452c;
+  --danger-bg: rgba(168, 69, 44, 0.1);
+  --danger-line: rgba(168, 69, 44, 0.4);
+  --caret: #14161a;
+  --thumb: #14161a;
+}
+
+/* ---------- dark: Hangar ground, Slate Deck cards ---------- */
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="falcon"]:not([data-scheme="light"]),
+  html[data-theme="falcon"]:not([data-scheme="light"]) body {
+    background: #14161a;
+    color-scheme: dark;
+  }
+
+  html[data-theme="falcon"]:not([data-scheme="light"]) .ohf {
+    color-scheme: dark;
+    --bg: #14161a;
+    --rail: #14161a;
+    --s1: #191d23;
+    --s2: #1d2127;
+    --s3: #262b33;
+    --s4: #313843;
+    /* Peregrine lifted toward Steel. Pure Peregrine is 2.999:1 on Slate Deck. */
+    --line: rgba(116, 132, 148, 0.85);
+    --line-2: #748494;
+    --tx: #edeae3;
+    /* Steel. Peregrine as secondary text is 3.36:1 on Hangar and fails 4.5:1. */
+    --tx2: #9aabb8;
+    --tx3: #98a1a9;
+    --tx4: #98a1a9;
+    --tx-off: #5b6c7f;
+    --accent: #e3b23c;
+    --accent-strong: #e8c369;
+    --accent-ink: #14161a;
+    --accent-bright: #e3b23c;
+    --accent-08: rgba(227, 178, 60, 0.12);
+    --accent-14: rgba(227, 178, 60, 0.2);
+    /* Cere at 32% is 2.48:1 on Hangar. 55% clears 3:1 for the focus ring. */
+    --accent-32: rgba(227, 178, 60, 0.55);
+    --accent-edge: transparent;
+    --state-fg: #e3b23c;
+    --state-fg-hover: #e8c369;
+    --wash: 255, 255, 255;
+    --plate: rgba(20, 22, 26, 0.78);
+    --plate-ink: #edeae3;
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+    --shadow-2: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.4);
+    --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.45), 0 24px 64px rgba(0, 0, 0, 0.5);
+    --glint: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    /* Critical #a8452c is 3.06:1 on Hangar. This lift holds 4.5:1 on Slate Deck. */
+    --danger: #c58a78;
+    --danger-bg: rgba(168, 69, 44, 0.18);
+    --danger-line: rgba(197, 138, 120, 0.5);
+    --caret: #e3b23c;
+    --thumb: #edeae3;
+  }
+}
+
+html[data-theme="falcon"][data-scheme="dark"],
+html[data-theme="falcon"][data-scheme="dark"] body {
+  background: #14161a;
+  color-scheme: dark;
+}
+
+html[data-theme="falcon"][data-scheme="dark"] .ohf {
+  color-scheme: dark;
+  --bg: #14161a;
+  --rail: #14161a;
+  --s1: #191d23;
+  --s2: #1d2127;
+  --s3: #262b33;
+  --s4: #313843;
+  --line: rgba(116, 132, 148, 0.85);
+  --line-2: #748494;
+  --tx: #edeae3;
+  --tx2: #9aabb8;
+  --tx3: #98a1a9;
+  --tx4: #98a1a9;
+  --tx-off: #5b6c7f;
+  --accent: #e3b23c;
+  --accent-strong: #e8c369;
+  --accent-ink: #14161a;
+  --accent-bright: #e3b23c;
+  --accent-08: rgba(227, 178, 60, 0.12);
+  --accent-14: rgba(227, 178, 60, 0.2);
+  --accent-32: rgba(227, 178, 60, 0.55);
+  --accent-edge: transparent;
+  --state-fg: #e3b23c;
+  --state-fg-hover: #e8c369;
+  --wash: 255, 255, 255;
+  --plate: rgba(20, 22, 26, 0.78);
+  --plate-ink: #edeae3;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.45), 0 24px 64px rgba(0, 0, 0, 0.5);
+  --glint: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --danger: #c58a78;
+  --danger-bg: rgba(168, 69, 44, 0.18);
+  --danger-line: rgba(197, 138, 120, 0.5);
+  --caret: #e3b23c;
+  --thumb: #edeae3;
+}
