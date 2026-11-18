@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import type { ReactNode } from "react";
 
 import {
@@ -10,6 +11,7 @@ import {
   openGraphFor,
   twitterFor,
 } from "@/site";
+import { THEME_BOOT } from "@/openhiggsfield/theme";
 
 import "./base.css";
 
@@ -40,8 +42,8 @@ export const metadata: Metadata = {
   },
 };
 
-/* The studio is the only surface, and it ships a single look, so the browser
-   chrome is pinned to its ground rather than following a preference. */
+/* The lime studio is the default chrome. theme.ts repaints theme-color before
+   paint when this browser has a Falcon theme stored. */
 export const viewport: Viewport = {
   colorScheme: "dark",
   themeColor: STUDIO_BG,
@@ -49,8 +51,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Script id="ohf-theme-boot" strategy="beforeInteractive">
+          {THEME_BOOT}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }
