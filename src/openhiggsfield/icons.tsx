@@ -62,6 +62,16 @@ export function AssetsIcon({ size = 16 }: IconProps) {
   );
 }
 
+/* Appearance, not a mark. Falcon has no logo; this is a circle split in half. */
+export function ThemeIcon({ size = 15 }: IconProps) {
+  return (
+    <svg {...base(size)}>
+      <circle cx="8" cy="8" r="5.25" />
+      <path d="M8 2.75v10.5" />
+    </svg>
+  );
+}
+
 export function KeyIcon({ size = 15 }: IconProps) {
   return (
     <svg {...base(size)}>

@@ -10,6 +10,7 @@ import {
   openGraphFor,
   twitterFor,
 } from "@/site";
+import { THEME_BOOT } from "@/openhiggsfield/theme";
 
 import "./base.css";
 
@@ -40,8 +41,11 @@ export const metadata: Metadata = {
   },
 };
 
-/* The studio is the only surface, and it ships a single look, so the browser
-   chrome is pinned to its ground rather than following a preference. */
+/* Default chrome is the lime studio. Next emits theme-color from this
+   viewport export. The inline head script below is what actually runs before
+   first paint: it reads ohf-theme and sets data-theme and theme-color. A
+   next/script beforeInteractive tag does not — the App Router queues that
+   through self.__next_s until the runtime chunk loads. */
 export const viewport: Viewport = {
   colorScheme: "dark",
   themeColor: STUDIO_BG,
@@ -49,7 +53,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
+      </head>
       <body>{children}</body>
     </html>
   );
