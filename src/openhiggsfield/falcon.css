@@ -199,8 +199,9 @@ html[data-theme="falcon"] .ohf {
   --s2: #f7f5f1;
   --s3: #efece6;
   --s4: #e4e0d8;
-  /* Peregrine. Steel at 40% is 1.28:1 on Bone. Solid Peregrine clears 3:1. */
-  --line: rgba(91, 108, 127, 0.72);
+  /* Peregrine #5b6c7f at 0.85. 0.72 was 2.60:1 on --s4, 2.74:1 on Bone, 2.90:1 on Chalk.
+     0.85 composites to 3.19:1 on --s4 #e4e0d8, 3.41:1 on Bone #edeae3, 3.67:1 on Chalk #f7f5f1. */
+  --line: rgba(91, 108, 127, 0.85);
   --line-2: #5b6c7f;
   --tx: #14161a;
   /* Peregrine pulled toward Hangar until body text clears 4.5:1 on Bone and Chalk. */

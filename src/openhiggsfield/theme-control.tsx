@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { CheckIcon, ThemeIcon } from "./icons";
 import {
+  DEFAULT_THEME,
   FALCON_SCHEME_KEY,
   THEME_STORAGE_KEY,
   applyTheme,
@@ -13,6 +14,16 @@ import {
   type FalconScheme,
   type ThemeId,
 } from "./theme";
+
+/** Painted theme, already set by the head script. The server render has no
+    storage, so the first state matches that HTML. A layout effect then reads
+    this before the browser paints, which is earlier than a passive effect. */
+function themeIdFromDocument(): ThemeId {
+  const { theme, scheme } = document.documentElement.dataset;
+  if (theme !== "falcon") return DEFAULT_THEME;
+  if (scheme === "light" || scheme === "dark" || scheme === "system") return `falcon-${scheme}`;
+  return "falcon-system";
+}
 
 const SCHEMES: { id: FalconScheme; label: string }[] = [
   { id: "falcon-system", label: "System" },
@@ -29,7 +40,7 @@ function step(index: number, count: number, key: string): number | null {
 }
 
 export function ThemeControl() {
-  const [themeId, setThemeId] = useState<ThemeId>("studio");
+  const [themeId, setThemeId] = useState<ThemeId>(DEFAULT_THEME);
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -37,10 +48,11 @@ export function ThemeControl() {
   const lookLabelId = useId();
   const menuId = useId();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const stored = readTheme();
-    setThemeId(stored);
-    applyTheme(stored);
+    const next = stored === DEFAULT_THEME ? themeIdFromDocument() : stored;
+    setThemeId(next);
+    applyTheme(next);
 
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const onMedia = () => {
@@ -116,7 +128,15 @@ export function ThemeControl() {
   };
 
   return (
-    <div className="ohf-bar ohf-theme ohf-enter-1" ref={rootRef}>
+    <div
+      className="ohf-bar ohf-theme ohf-enter-1"
+      ref={rootRef}
+      onBlur={(event) => {
+        const next = event.relatedTarget;
+        if (next instanceof Node && event.currentTarget.contains(next)) return;
+        setOpen(false);
+      }}
+    >
       <button
         ref={buttonRef}
         type="button"
